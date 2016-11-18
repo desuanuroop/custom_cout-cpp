@@ -1,6 +1,7 @@
 #include <iostream>
 #include <typeinfo>
 #include <string>
+namespace cs540{
 using namespace std;
 class helper{
 	public:
@@ -16,24 +17,39 @@ class helper{
 };
 
 helper Interpolate(const char *format){
-	return helper(format);
+	cout<<*format;
+	return helper();
 }
-
+class WrongNumberOfArgs:public exception{
+	const char *what() const throw(){
+		return "Wrong_Number_of_Args";
+	}
+};
 template<typename T1, typename... Targs>
 helper Interpolate(const char *format, T1 value, Targs... Fargs){
+	int count=0;
+	const char *check = format;
 	helper hp;
-	bool isString;
-	string s, data;
-	for(; *format != '\0'; format++){
-		if(*format == '%'){
-			cout<<value;
-			Interpolate(format+1, Fargs...);
-			return hp;
+	for(; *check !='\0'; check++){
+		if(*check == '%')
+			count++;
+	}
+	if(count == (sizeof...(Targs)+1)){
+		bool isString;
+		string s, data;
+		for(; *format != '\0'; format++){
+			if(*format == '%'){
+				cout<<value;
+				Interpolate(format+1, Fargs...);
+				return hp;
+			}
+			cout<<*format;
 		}
-		cout<<*format;
+	}else{//Throw exception
+		throw WrongNumberOfArgs();
 	}
 	return hp;
 }
-
+}//End of namespace
 //Interpolate("i=%, d=%", 10, 20);
 //Interpolate("i=%", 10)

@@ -9,7 +9,7 @@ int main(){
 //	helper hp = Interpolate("i=%, d=%", 12, 3.5656);
 //	cout<<Interpolate("Name=%, age=%, gpa=%", true, 12,12)<<endl;
 //	cout<<Interpolate("i=%, d=%", 12, 3.5656)<<endl;
-	cout<<Interpolate("N=%", 0.1)<<endl;
-	cout<<(typeid(0.1) == typeid(double))<<endl;
-	cout<<0.1<<endl;
+	cout<<Interpolate("N=% %", 0.1, "Anuroop")<<endl;
+	std::cout<<std::boolalpha;
+	std::cout<< Interpolate("% %", true, false)<<endl;
 }

@@ -18,10 +18,19 @@ int main(){
 	std::cout<<std::boolalpha;
 	std::cout<< Interpolate("% %", true, false)<<endl;
 */
+/*	{
+		int i = 1234;
+		double x = 3.14;
+		std::string str("foo");
+//		std::cout << Interpolate(R"(i=%, x1=%, x2=%\%, str1=%, str2=%)", i, x, 1.001, str, "hello") << std::endl;
+	}
 // Test if it returns ostream.
     {
         std::stringstream s;
-        cout << Interpolate("i=% % %", 1234, 10, 10) <<std::endl;
+        //cout<< Interpolate("i=% % %", 1234, 10, 10) <<std::endl;
+	s << Interpolate("i=% % %", 1234, 10, 10);
+	cout<<endl;
+//	cout<<s.str().length()<<" and "<<string("i=1234 10 10\n").length() <<endl;
     }
 // Test too many args.
     try {
@@ -29,7 +38,7 @@ int main(){
         s << Interpolate("i=%, j=%", 1, 2, 3);
         assert(false);
     } catch (cs540::WrongNumberOfArgs) {
-        std::cout << "Caught exception due to too many args." << std::endl;
+//        std::cout << "Caught exception due to too many args." << std::endl;
    }
 // Test too few.
     try {
@@ -37,6 +46,10 @@ int main(){
         s << Interpolate("i=%, j=%, k=%", 1, 2);
         assert(false);
     } catch (cs540::WrongNumberOfArgs) {
-        std::cout << "Caught exception due to few args." << std::endl;
-   }
+  //      std::cout << "Caught exception due to few args." << std::endl;
+   }*/
+	stringstream ss;
+	ss<<Interpolate("% %", 10,20);
+//	assert(ss.str() == "10 20");
+	cout<<endl<<ss.str()<<endl;
 }

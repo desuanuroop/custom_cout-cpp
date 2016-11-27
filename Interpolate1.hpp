@@ -16,14 +16,15 @@ class helper{
 	int x;
 	//template members
 	const char *format;
-	T1 value;
-	std::tuple<T1, Targs...> Fargs;
+	std::tuple<T1, Targs ...> Fargs;
 
 	//constructor
-	helper(const char *form, T1 value, std::tuple<T1, Targs ...> &Fargs):x(100){
+	helper(const char *form, std::tuple<T1, Targs ...> Fargs):x(100){
 		this->format = form;
-		this->value = value;
 		this->Fargs = Fargs;
+	}
+	helper(const char *form){
+		this->format = form;
 	}
 	~helper(){
 		cout<<"IN destructor"<<endl;
@@ -38,9 +39,10 @@ class WrongNumberOfArgs:public exception{
 		return "Wrong_Number_of_Args";
 	}
 };
+
 template<typename T>
 void print3(std::ostream &os, const char *format, const T &tuple){
-
+	os<<format;
 }
 template<std::size_t index, std::size_t... indices, typename T>
 void print3(std::ostream &os, const char *format, const T &tuple){
@@ -67,7 +69,23 @@ void print3(std::ostream &os, const char *format, const T &tuple){
 			}else
 				os<<*format;
 		}
-	}else
+	}else if(!count){
+		for(;*format != '\0'; format++){
+			if(*format == '\\'){
+				if(!*(format+1))
+					os<<*format;
+				else
+					if(*(format+1) == '\\')
+						os<<format;
+					else
+						os<<*(++format);
+			}
+			else
+				os<<format;
+		return;
+		}
+	}
+	else
 		throw WrongNumberOfArgs();
 }
 template<std::size_t... indices, typename T>
@@ -82,10 +100,16 @@ void print(std::ostream &os, const char * format, const T &tuple){
 }
 
 template<typename T1, typename... Targs>
-const helper<T1, Targs... > *Interpolate(const char *frm, T1 value, Targs... Fargs){
-	std::tuple<T1,Targs ...> F = std::make_tuple(value, Fargs...);
-	helper<T1, Targs ...> *hp = new helper<T1, Targs ...>(frm, value, F);
+const helper<T1, Targs... > *Interpolate(const char *frm, const T1 &value, const Targs &... Fargs){
+	std::tuple<T1,const Targs ...> F = std::make_tuple(value, Fargs...);
+	helper<T1, Targs ...> *hp = new helper<T1, Targs ...>(frm, F);
 //	return hp;
+	return hp;
+}
+//Just string
+template<typename T>
+const helper<int, int>* Interpolate(T frm){
+	helper<int, int> *hp = new helper<int, int>(frm);
 	return hp;
 }
 }//END of cs540

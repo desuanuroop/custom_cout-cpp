@@ -124,10 +124,13 @@ int main(int argc, char **argv){
        		std::cout << "Caught exception due to few args." << std::endl;
    	}
 
+// Testing Manipulators
 	{
-		stringstream ss;
-		ss<<Interpolate("% %", 10,20);
-		assert(ss.str() == "10 20");
-		cout<<ss.str()<<endl;
+		std::stringstream ss;
+		ss<<std::boolalpha;
+		ss << Interpolate("%, %", true, false);
+		assert(ss.str() == "true, false");
 	}
+
+
 }

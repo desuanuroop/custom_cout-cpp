@@ -27,7 +27,7 @@ class helper{
 		this->format = form;
 	}
 	~helper(){
-		cout<<"IN destructor"<<endl;
+
 	}
 	friend std::ostream& operator<<(std::ostream &os, const helper *hp){
 		print(os, hp->format, hp->Fargs);
@@ -39,6 +39,15 @@ class WrongNumberOfArgs:public exception{
 		return "Wrong_Number_of_Args";
 	}
 };
+
+template<typename T>
+void ffr(T&(*pManip)(T &)){
+	cout<<(*pManip);
+}
+
+void ffr(std::ostream&(*pManip)(std::ostream &)){
+	cout<<(*pManip);
+}
 
 template<typename T>
 void print3(std::ostream &os, const char *format, const T &tuple){
@@ -100,10 +109,9 @@ void print(std::ostream &os, const char * format, const T &tuple){
 }
 
 template<typename T1, typename... Targs>
-const helper<T1, Targs... > *Interpolate(const char *frm, const T1 &value, const Targs &... Fargs){
+const helper<T1, Targs... >* Interpolate(const char *frm, const T1 value, const Targs ... Fargs){
 	std::tuple<T1,const Targs ...> F = std::make_tuple(value, Fargs...);
 	helper<T1, Targs ...> *hp = new helper<T1, Targs ...>(frm, F);
-//	return hp;
 	return hp;
 }
 //Just string

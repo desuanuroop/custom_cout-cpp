@@ -41,12 +41,18 @@ class WrongNumberOfArgs:public exception{
 };
 
 template<typename T>
-void ffr(T&(*pManip)(T &)){
+T ffr(T&(*pManip)(T &)){
 	cout<<(*pManip);
 }
 
-void ffr(std::ostream&(*pManip)(std::ostream &)){
-	cout<<(*pManip);
+char ffr(std::ostream&(*pManip)(std::ostream &)){
+	std::stringstream ss;
+	ss<<(*pManip);
+	if(ss.str() == "\n")
+		return '\n';
+	else if(ss.str() == "")
+		return '\0';
+	return '\0';
 }
 
 template<typename T>
@@ -109,7 +115,7 @@ void print(std::ostream &os, const char * format, const T &tuple){
 }
 
 template<typename T1, typename... Targs>
-const helper<T1, Targs... >* Interpolate(const char *frm, const T1 value, const Targs ... Fargs){
+const helper<T1, Targs ... >* Interpolate(const char *frm, const T1 value, const Targs ... Fargs){
 	std::tuple<T1,const Targs ...> F = std::make_tuple(value, Fargs...);
 	helper<T1, Targs ...> *hp = new helper<T1, Targs ...>(frm, F);
 	return hp;
